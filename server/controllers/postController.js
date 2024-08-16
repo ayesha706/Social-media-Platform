@@ -23,6 +23,7 @@ module.exports.createPost = async (req, res) => {
     console.log(error);
   }
 }
+
 module.exports.getAllPosts = async (req, res) => {
   try {
     const posts = await Post.find().populate({ path: 'user', select: 'username' })
@@ -75,3 +76,27 @@ module.exports.getPost = async (req, res) => {
     console.error(error);
   }
 }
+
+module.exports.likePost = async (req, res) => {
+  try {
+    const postId  = req.params.id;
+    const userId = req.user.id; 
+    
+    const post = await Post.findById(postId).populate({ path: 'likes', select: 'username' });
+
+    if (!post) {
+      return res.json({ message: 'Post not found' });
+    }
+
+    if (post.likes.includes(userId)) {
+      return res.json({ message: 'You have already liked this post' });
+    }
+    post.likes.push(userId);
+    await post.save();
+
+    return res.json({ message: 'Post liked', post });
+  } catch (error) {
+    console.error(error);
+    res.json({ message: 'Server error' });
+  }
+};
