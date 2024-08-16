@@ -38,7 +38,6 @@ module.exports.getAllPosts = async (req, res) => {
     })
   } catch (error) {
     console.error(error)
-
   }
 }
 
@@ -72,6 +71,32 @@ module.exports.getPost = async (req, res) => {
       });
     res.json({ post });
   } catch (error) {
+    console.error(error);
+  }
+}
+
+module.exports.likePost = async (req, res) => {
+  try {
+    const postId = req.params.id;
+    const userId = req.user.id;
+
+    const post = await Post.findById(postId).populate({ path: 'likes', select: 'username' });
+    // console.log("++++++====", post);
+    if (!post) {
+      return res.json({
+        msg: 'Post not found'
+      })
+    }
+    post.likes.push(userId);
+    await post.save();
+    res.json({
+      msg: "post liked"
+    })
+  } catch (error) {
+    res.json({
+      msg:
+        error
+    })
     console.error(error);
   }
 }
