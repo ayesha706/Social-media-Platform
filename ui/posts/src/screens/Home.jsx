@@ -1,10 +1,11 @@
 import React from 'react'
 import { Comments } from '../sections/Comments'
-import { useGetAllPostsQuery, useAddCommentMutation, useLikePostMutation } from '../redux/postSlice';
+import { useGetAllPostsQuery, useAddCommentMutation, useLikePostMutation, useFollowUserMutation } from '../redux/postSlice';
 export const Home = () => {
     const { data: posts, isLoading, isError } = useGetAllPostsQuery();
     const [addComment] = useAddCommentMutation();
     const [likePost] = useLikePostMutation();
+    const [followUser] = useFollowUserMutation();
     // const handleAddComment = async (postId, text) => {
     //     try {
     //         await addComment({ postId, text }).unwrap();
@@ -19,6 +20,14 @@ export const Home = () => {
             console.log(error);
         }
     }
+    const handleFollowUser = async (userIdToFollow) => {
+        try {
+          await followUser(userIdToFollow).unwrap();
+          alert('User followed successfully');
+        } catch (err) {
+          console.error(err);
+        }
+      };
     if (isLoading)
         return <div>Loading...</div>;
     if (isError)
@@ -31,7 +40,7 @@ export const Home = () => {
                         <div className=" mb-1 p-3">
                             <div className='flex justify-between'>
                                 <span className="text-gray-800 font-semibold">{post.user.username}</span>
-                                <button> +Follow</button>
+                                <button  onClick={() => handleFollowUser(post.user._id)}> +Follow</button>
                             </div>
 
                             <span className="text-gray-600 text-sm ">2 hours ago</span>

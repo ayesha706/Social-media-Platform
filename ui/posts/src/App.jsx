@@ -5,6 +5,7 @@ import { Home } from './screens/Home'
 import Login from './screens/Login'
 import Signup from './screens/SignUp'
 import { Dashboard } from './screens/Dashboard'
+import { WebSocketClient } from './screens/Msg'
 function App() {
 
 
@@ -19,6 +20,7 @@ function App() {
          <Route path="/login" element={<Login/>}/>
          <Route path="/signup" element={<Signup/>}/>
          <Route path="/dashboard" element={<Dashboard/>}/>
+         <Route path="/msg" element={<WebSocketClient/>}/>
         </Routes>
         </div>
       </BrowserRouter>

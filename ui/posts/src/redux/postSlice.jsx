@@ -55,13 +55,22 @@ export const apiSlice = createApi({
             }),
         }),
         makePost: builder.mutation({
-            query: (data) => ({
-              url: `/create-post/${data.userId}`,
-              method: 'POST',
-              body: data,
+            query: (formData) => {
+              const userId = getUserIdFromToken();
+              return {
+                url: `/create-post/${userId}`,
+                method: 'POST',
+                body: formData,
+              };
+            }, 
+          }),
+          followUser: builder.mutation({
+            query: (userIdToFollow) => ({
+              url: `/follow/${userIdToFollow}`,
+              method: 'PUT',
             }),
           }),
     }),
 });
 
-export const { useGetAllPostsQuery, useAddCommentMutation, useLikePostMutation, useMakePostMutation } = apiSlice;
+export const { useGetAllPostsQuery, useAddCommentMutation, useLikePostMutation, useMakePostMutation, useFollowUserMutation } = apiSlice;

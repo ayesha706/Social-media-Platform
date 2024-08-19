@@ -15,6 +15,7 @@ export const Header = () => {
                                 <div className="flex space-x-4">
                                     <Link to="/" className=" px-3 py-2 text-sm font-medium text-white">Home</Link>
                                     <Link to="/dashboard" className=" px-3 py-2 text-sm font-medium text-white">Dashboard</Link>
+                                    <Link to="/msg" className=" px-3 py-2 text-sm font-medium text-white">Message</Link>
                                 </div>
                             </div>
                         </div>

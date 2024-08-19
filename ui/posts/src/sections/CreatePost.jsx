@@ -1,21 +1,21 @@
 import React, { useState } from 'react'
 import { useMakePostMutation } from '../redux/postSlice'
-import { useParams } from 'react-router-dom';
-
+import { useNavigate } from 'react-router-dom'
 export const CreatePost = () => {
     const [postTitle, setTitle] = useState('');
     const [postContent, setContent] = useState('');
     const [image, setImage] = useState(null);
     const [makePost, {isLoading}] = useMakePostMutation();
+    const navigate = useNavigate();
     const handlePostSubmit = async () => {
-        
-        try {
-            const userId =' 66bef0fa7264289b622a5af3';
+       
             const formData = new FormData();
             formData.append('title', postTitle);
             formData.append('content', postContent);
             formData.append('image', image);
-            await makePost({userId, body: formData}).unwrap();
+            try {
+            await makePost( formData).unwrap();
+            navigate("/")
         } catch (error) {
             console.error(error);
         }

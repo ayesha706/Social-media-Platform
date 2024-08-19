@@ -100,3 +100,27 @@ module.exports.likePost = async (req, res) => {
     console.error(error);
   }
 }
+
+
+module.exports.followUser = async (req, res) => {
+  const userId = req.user.id;
+  const followUserId = req.params.id; 
+
+  try {
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.json({ message: "User not found" });
+    }
+
+    if (!user.following.includes(followUserId)) {
+      user.following.push(followUserId);
+      await user.save();
+      return res.json({ message: "User followed successfully" });
+    } else {
+      return res.json({ message: "You are already following this user" });
+    }
+  } catch (error) {
+    console.error(error);
+    res.json({ message: "Server error" });
+  }
+};
